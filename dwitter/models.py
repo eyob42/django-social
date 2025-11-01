@@ -18,3 +18,6 @@ class Profile(models.Model):
 # - symmetrical=False makes the relationship one-way (A can follow B without B following A).
 # - blank=True allows a Profile to exist without following anyone initially.
 
+    # Customize how Profile objects are displayed (especially in admin)
+    def __str__(self):
+        return self.user.username  # Show the username instead of "Profile object (1)"
