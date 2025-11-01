@@ -1,6 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
-
+from django.db.models.signals import post_save # 1 "after save" signal
 
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
@@ -21,3 +21,19 @@ class Profile(models.Model):
     # Customize how Profile objects are displayed (especially in admin)
     def __str__(self):
         return self.user.username  # Show the username instead of "Profile object (1)"
+    
+
+def create_profile(sender, instance, created, **kwargs):
+    if created:
+        # Create a new Profile instance linked to the newly created User.
+        user_profile = Profile(user=instance)
+        
+        # Save the Profile to the database so it gets an ID and can be referenced.
+        user_profile.save()
+        
+        # Add the user's own profile to their follows list so they can see their own dweets.
+        user_profile.follows.add(instance.profile)
+        
+        # Save again to persist the self-follow relationship.
+        user_profile.save()
+  
