@@ -2,19 +2,22 @@ from django.shortcuts import render, redirect
 from .forms import DweetForm
 from .models import Profile
 
+# dwitter/views.py (Final, corrected version)
 def dashboard(request):
-    # IF THE USER IS SUBMITTING A FORM (Clicking the "Dweet" button)
-    if request.method == "POST":
-        form = DweetForm(request.POST) # Fill the form with the text the user typed
-        if form.is_valid(): # Check if the message is okay (e.g., not empty)
-            dweet = form.save(commit=False) # "Prepare to save the dweet, but wait a moment!"
-            dweet.user = request.user # Write YOUR username onto the dweet
-            dweet.save() # NOW save it to the database
-            return redirect("dwitter:dashboard") #Stop the Double-Posts with a "Redirect"
-    # FOR BOTH 'POST' AND NORMAL PAGE LOADS, do this:
-    form = DweetForm() # Show a fresh, empty form
-    return render(request, "dwitter/dashboard.html", {"form": form})
+    # Create the form ONE TIME. It's either filled with POST data or it's empty.
+    form = DweetForm(request.POST or None)
 
+    # Only try to save if it's a POST request AND the data is valid
+    if request.method == "POST":
+        if form.is_valid(): # Check if the dweet is the right length
+            dweet = form.save(commit=False)
+            dweet.user = request.user
+            dweet.save()
+            return redirect("dwitter:dashboard") # Redirect after success
+
+    # Render the page with the SAME form we started with.
+    # If validation failed, this form contains the user's text and the error message.
+    return render(request, "dwitter/dashboard.html", {"form": form})
 
 def profile_list(request):
     profiles = Profile.objects.exclude(user=request.user)
