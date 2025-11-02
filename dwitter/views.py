@@ -2,7 +2,7 @@ from django.shortcuts import render
 from .models import Profile
 
 def dashboard(request):
-    return render(request, "base.html")
+    return render(request, "dwitter/dashboard.html")
 
 
 def profile_list(request):
@@ -22,6 +22,7 @@ def profile(request, pk):
         if action == "follow":
             current_user_profile.follows.add(profile)
         elif action == "unfollow":
-            current_user_profile.profile.remove(profile)
+            # Remove the target profile from the current user's follow list
+            current_user_profile.follows.remove(profile)
         current_user_profile.save()
     return render(request, "dwitter/profile.html",{"profile":profile})
