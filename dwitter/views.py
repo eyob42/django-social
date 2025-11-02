@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from .forms import DweetForm
 from .models import Profile
 
@@ -10,7 +10,7 @@ def dashboard(request):
             dweet = form.save(commit=False) # "Prepare to save the dweet, but wait a moment!"
             dweet.user = request.user # Write YOUR username onto the dweet
             dweet.save() # NOW save it to the database
-
+            return redirect("dwitter:dashboard") #Stop the Double-Posts with a "Redirect"
     # FOR BOTH 'POST' AND NORMAL PAGE LOADS, do this:
     form = DweetForm() # Show a fresh, empty form
     return render(request, "dwitter/dashboard.html", {"form": form})
