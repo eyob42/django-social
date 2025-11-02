@@ -3,7 +3,16 @@ from .forms import DweetForm
 from .models import Profile
 
 def dashboard(request):
-    form = DweetForm()
+    # IF THE USER IS SUBMITTING A FORM (Clicking the "Dweet" button)
+    if request.method == "POST":
+        form = DweetForm(request.POST) # Fill the form with the text the user typed
+        if form.is_valid(): # Check if the message is okay (e.g., not empty)
+            dweet = form.save(commit=False) # "Prepare to save the dweet, but wait a moment!"
+            dweet.user = request.user # Write YOUR username onto the dweet
+            dweet.save() # NOW save it to the database
+
+    # FOR BOTH 'POST' AND NORMAL PAGE LOADS, do this:
+    form = DweetForm() # Show a fresh, empty form
     return render(request, "dwitter/dashboard.html", {"form": form})
 
 
