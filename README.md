@@ -4,65 +4,106 @@ A small Django social app (dwitter-like) that demonstrates user profiles and sho
 
 This repository contains a Django project with a `dwitter` app and the project package `social`.
 
+A Django-based social application template.  
+Built with Django and HTML templates — a simple starting point for social media-style features.
+
 ## Features
 
+- User authentication (signup, login, logout)
 - User profiles
-- Create and view short posts (dweets)
-- Basic templates for dashboard and profile pages
-- SQLite backend (default)
+- Create, edit, and delete posts
+- Commenting and liking system
+- Responsive front-end templates
 
-## Requirements
+## Getting Started
 
-- Python 3.8+ (use the version installed on your system)
-- Django (the project was built with Django; if there's no `requirements.txt`, install Django directly)
+### Prerequisites
 
-## Quick setup (Windows PowerShell)
+- Python 3.x
+- Django 4.x
+- pip
 
-Open PowerShell in the repository root and run:
+### Installation
 
-```powershell
-# create virtual environment
-python -m venv .\venv
-# activate the venv
-.\venv\Scripts\Activate.ps1
+1. Clone the repository:
 
-# install dependencies (if requirements.txt exists)
-if (Test-Path requirements.txt) { pip install -r requirements.txt } else { pip install Django }
+   ```bash
+   git clone https://github.com/eyob42/django-social.git
+   cd django-social
+   ```
 
-# apply migrations
+2. Create and activate a virtual environment:
+
+   ```bash
+   python -m venv env
+   env\Scripts\activate   # On Windows
+   # source env/bin/activate   # On macOS/Linux
+   ```
+
+3. Install dependencies:
+
+   ```bash
+   pip install -r requirements.txt
+   ```
+
+### Database Setup
+
+Run migrations:
+
+```bash
+python manage.py makemigrations
 python manage.py migrate
+```
 
-# create an admin user (optional)
+(Optional) Create a superuser:
+
+```bash
 python manage.py createsuperuser
+```
 
-# run the dev server
+### Run the Development Server
+
+```bash
 python manage.py runserver
 ```
 
-Then open http://127.0.0.1:8000/ in your browser.
+Then open your browser and visit:
 
+```
+http://127.0.0.1:8000/
+```
 
-## Project structure
+## Folder Structure
 
-Top-level files and folders (important ones):
-
-- `manage.py` - Django management script
-- `db.sqlite3` - default SQLite database (created after migrations)
-- `social/` - Django project package (settings, URLs, WSGI/ASGI)
-- `dwitter/` - application implementing the social/dweet features
-  - `models.py`, `views.py`, `forms.py`, `templates/` and `migrations/`
-
-Example template files are included under `dwitter/templates/dwitter/` (dashboard, profile list, profile).
-
-## Notes
-
-- The project uses SQLite by default, which requires no extra configuration for local development.
-- If you add environment-specific secrets or use a different database, update `social/settings.py` accordingly.
+```
+django-social/
+│
+├─ social/           # Main Django app
+│   ├─ migrations/
+│   ├─ static/
+│   ├─ templates/
+│   ├─ models.py
+│   ├─ views.py
+│   └─ urls.py
+│
+├─ manage.py
+├─ requirements.txt
+└─ README.md
+```
 
 ## Contributing
 
-Contributions are welcome. Open an issue to discuss larger changes or submit a PR with a clear description of the change.
+1. Fork the repository
+2. Create a new branch (`git checkout -b feature-name`)
+3. Commit changes (`git commit -m "Add feature"`)
+4. Push the branch (`git push origin feature-name`)
+5. Open a Pull Request
 
+## License
 
+MIT License
 
+## Author
 
+**Eyob Adigeh**
+GitHub: [eyob42](https://github.com/eyob42)
